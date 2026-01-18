@@ -24,8 +24,7 @@ Add the following to your `pubspec.yaml`:
 dependencies:
   mim_chucker:
     git:
-      url: https://github.com/your-username/mobile-bilbakalim.git
-      path: modules/mim_chucker
+      url: https://github.com/ahmet-ozberk/mim_chucker.git
       ref: main
 ```
 

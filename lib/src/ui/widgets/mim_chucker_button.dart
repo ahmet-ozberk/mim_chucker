@@ -27,37 +27,41 @@ class _MimChuckerButtonState extends State<MimChuckerButton> {
         return Positioned(
           right: _position.dx,
           bottom: _position.dy,
-          child: GestureDetector(
-            onPanUpdate: (details) {
-              setState(() {
-                _position -= details.delta;
-              });
-            },
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: ShadTheme(
-                data: ShadThemeData(
-                  brightness: Brightness.light,
-                  colorScheme: const ShadZincColorScheme.light(),
-                ),
-                child: ShadButton(
-                  width: 46,
-                  height: 46,
-                  padding: EdgeInsets.zero,
-                  shadows: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+          child: Builder(
+            builder: (newContext) {
+              return GestureDetector(
+                onPanUpdate: (details) {
+                  setState(() {
+                    _position -= details.delta;
+                  });
+                },
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: ShadTheme(
+                    data: ShadThemeData(
+                      brightness: Brightness.light,
+                      colorScheme: const ShadZincColorScheme.light(),
                     ),
-                  ],
-                  onPressed: () {
-                    MimChucker.launch(context);
-                  },
-                  child: const Icon(lucide.LucideIcons.network, size: 20),
+                    child: ShadButton(
+                      width: 46,
+                      height: 46,
+                      padding: EdgeInsets.zero,
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      onPressed: () {
+                        MimChucker.launch(newContext);
+                      },
+                      child: const Icon(lucide.LucideIcons.network, size: 20),
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         );
       },

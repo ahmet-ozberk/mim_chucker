@@ -49,6 +49,21 @@ class NotificationService {
     // Try to find overlay state from navigator key if not set
     _overlayState ??= MimChuckerUtils.navigatorKey.currentState?.overlay;
 
+    // Fallback: Try to find overlay via navigator observer
+    _overlayState ??= MimChuckerUtils.navigatorObserver.navigator?.overlay;
+
+    // Fallback: Try to find root navigator via WidgetsBinding
+    if (_overlayState == null) {
+      final rootElement = WidgetsBinding.instance.rootElement;
+      if (rootElement != null) {
+        rootElement.visitChildElements((element) {
+          _findNavigatorOverlay(element, (found) {
+            _overlayState ??= found;
+          });
+        });
+      }
+    }
+
     if (!_notificationsEnabled || _overlayState == null) return;
 
     // Remove any existing notification
@@ -274,5 +289,23 @@ class NotificationService {
       _currentNotification!.remove();
       _currentNotification = null;
     }
+  }
+
+  /// Helper to find Navigator's overlay by traversing the element tree
+  static void _findNavigatorOverlay(
+    Element element,
+    void Function(OverlayState) onFound,
+  ) {
+    if (element.widget is Navigator) {
+      final navigatorState =
+          (element as StatefulElement).state as NavigatorState;
+      if (navigatorState.overlay != null) {
+        onFound(navigatorState.overlay!);
+        return;
+      }
+    }
+    element.visitChildElements((child) {
+      _findNavigatorOverlay(child, onFound);
+    });
   }
 }

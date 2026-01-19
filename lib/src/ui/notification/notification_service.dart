@@ -46,6 +46,9 @@ class NotificationService {
 
   /// Show notification for an API response
   void showNotification(ApiResponse apiResponse, {int maxBodySize = 1024}) {
+    // Try to find overlay state from navigator key if not set
+    _overlayState ??= MimChuckerUtils.navigatorKey.currentState?.overlay;
+
     if (!_notificationsEnabled || _overlayState == null) return;
 
     // Remove any existing notification

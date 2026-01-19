@@ -27,9 +27,16 @@ class MimChucker {
     MimChuckerUtils.showOnRelease = value;
   }
 
+  /// The navigator key for MimChucker to find the overlay state automatically
+  static GlobalKey<NavigatorState> get navigatorKey =>
+      MimChuckerUtils.navigatorKey;
+
   /// The navigator observer for MimChucker
   static NavigatorObserver get navigatorObserver =>
       MimChuckerUtils.navigatorObserver;
+
+  /// The list of navigator observers for MimChucker
+  static List<NavigatorObserver> get observers => [navigatorObserver];
 
   /// Value Notifier for overlay active state
   static final ValueNotifier<bool> isOverlayActive = ValueNotifier(false);
@@ -86,6 +93,9 @@ class MimChucker {
 
       // Fallback: Try to find overlay via attached NavigatorObserver
       overlay ??= navigatorObserver.navigator?.overlay;
+
+      // Fallback: Try to find overlay via navigatorKey
+      overlay ??= navigatorKey.currentState?.overlay;
 
       if (overlay == null) {
         debugPrint('MimChucker: No Overlay found in context');

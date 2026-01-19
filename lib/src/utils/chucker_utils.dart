@@ -11,6 +11,10 @@ class MimChuckerUtils {
   /// Whether to show MimChucker on release builds
   static bool showOnRelease = false;
 
+  /// The navigator key for MimChucker
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
   /// Navigator observer for MimChucker
   static final _navigatorObserver = _MimChuckerNavigatorObserver();
 

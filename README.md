@@ -61,9 +61,6 @@ class MyApp extends StatelessWidget {
       enabled: enableChucker, 
       child: MaterialApp(
         title: 'My App',
-        navigatorObservers: [
-          if (enableChucker) MimChucker.navigatorObserver,
-        ],
         home: MyHomePage(),
       ),
     );
